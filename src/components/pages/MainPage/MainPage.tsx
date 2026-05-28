@@ -17,8 +17,8 @@ const MainPage = ({
   );
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const analyserRef = useRef<AnalyserNode | null>(null);
-  const canvasWidth = 1080;
-  const canvasHeight = 720;
+  const canvasWidth = 960;
+  const canvasHeight = 540;
 
   const controlMedia = async () => {
     await audioContext.resume();
@@ -65,17 +65,21 @@ const MainPage = ({
       //   canvasContext!.fillRect(0, 0, canvasWidth, canvasHeight);
       // }, 49);
       setPreviousEqState(dataArray);
-      console.log(dataArray);
-    }, 50);
+    }, 25);
   }
   return (
     <div className={cs(classes.container, className)} {...props}>
-      <Header />
-      <button onClick={controlMedia}>init</button>
-      <canvas
-        style={{ width: `${canvasWidth}`, height: `${canvasHeight}` }}
-        ref={canvasRef}
-      />
+      {/* <Header /> */}
+      <div>
+        <button onClick={controlMedia}>init</button>
+      </div>
+      <div>
+        <canvas
+          // className={classes.canvas}
+          style={{ width: `${canvasWidth}px`, height: `${canvasHeight}px` }}
+          ref={canvasRef}
+        />
+      </div>
       {children}
     </div>
   );

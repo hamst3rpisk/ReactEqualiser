@@ -11,7 +11,6 @@ const AppTemplate = ({
 }: AppTemplateProps): React.JSX.Element => {
   return (
     <div className={cs(classes.container, className)} {...props}>
-      abc
       <Outlet />
     </div>
   );
