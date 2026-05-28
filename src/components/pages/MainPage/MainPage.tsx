@@ -1,7 +1,8 @@
 import classes from "./MainPage.module.css";
 import cs from "classnames";
 import { useWebAudioContext } from "../../../contexts/WebAudioProvider";
-import { useEffect, useRef, useState, type Ref } from "react";
+import { useRef, useState } from "react";
+import Header from "../../organisms/Header/Header";
 interface MainPageProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 const MainPage = ({
@@ -10,12 +11,14 @@ const MainPage = ({
   ...props
 }: MainPageProps): React.JSX.Element => {
   const { audioContext, getMediaDevices } = useWebAudioContext();
-  const [frequencies, setFrequencies] = useState<any>(null);
   const [isReady, setIsReady] = useState<boolean>(false);
+  const [previousEqState, setPreviousEqState] = useState<Uint8Array>(
+    new Uint8Array()
+  );
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const analyserRef = useRef<AnalyserNode | null>(null);
-  const canvasWidth = 1600;
-  const canvasHeight = 900;
+  const canvasWidth = 1080;
+  const canvasHeight = 720;
 
   const controlMedia = async () => {
     await audioContext.resume();
@@ -45,27 +48,34 @@ const MainPage = ({
       canvasContext!.fillStyle = "white";
 
       dataArray.forEach((element, i) => {
-        canvasContext?.fillRect(
-          i * barWidth,
-          0,
-          barWidth,
-          (intervalHeight * element) / 3
-        );
+        if (dataArray[i] != previousEqState[i]) {
+          canvasContext!.fillStyle = "#242424";
+          canvasContext!.fillRect(i * barWidth, 0, barWidth, canvasHeight);
+          canvasContext!.fillStyle = "white";
+          canvasContext?.fillRect(
+            i * barWidth,
+            0,
+            barWidth,
+            (intervalHeight * element) / 3
+          );
+        }
       });
-      setTimeout(() => {
-        canvasContext!.fillStyle = "#242424";
-        canvasContext!.fillRect(0, 0, canvasWidth, canvasHeight);
-      }, 199);
-    }, 200);
+      // setTimeout(() => {
+      //   canvasContext!.fillStyle = "#242424";
+      //   canvasContext!.fillRect(0, 0, canvasWidth, canvasHeight);
+      // }, 49);
+      setPreviousEqState(dataArray);
+      console.log(dataArray);
+    }, 50);
   }
   return (
     <div className={cs(classes.container, className)} {...props}>
+      <Header />
       <button onClick={controlMedia}>init</button>
       <canvas
         style={{ width: `${canvasWidth}`, height: `${canvasHeight}` }}
         ref={canvasRef}
       />
-      {frequencies}
       {children}
     </div>
   );
