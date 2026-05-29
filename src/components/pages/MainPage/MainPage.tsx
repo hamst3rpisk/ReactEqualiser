@@ -10,7 +10,7 @@ const compressArray = (
   bufferLength: number,
 ): Uint8Array<ArrayBuffer> => {
   let compressedArray = new Uint8Array(bufferLength / 5);
-  let tempSum: number = 0;
+  let tempSum: number = array[0];
   for (let i = 0; i < array.length - 5; i++) {
     if (i % 5 == 0) {
       compressedArray.set([Math.floor(tempSum / 5)], i / 5);
@@ -40,6 +40,7 @@ const MainPage = ({
     const stream = await getMediaDevices();
 
     const analyser = audioContext.createAnalyser();
+    analyser.fftSize = 4096;
     const source = audioContext.createMediaStreamSource(stream);
     source.connect(analyser);
 
@@ -62,11 +63,10 @@ const MainPage = ({
       const canvasContext = (canvasRef.current as HTMLCanvasElement).getContext(
         "2d",
       );
-      canvasContext!.fillStyle = "white";
 
       compressedArray.forEach((element, i) => {
         if (compressedArray[i] != previousEqState[i]) {
-          canvasContext!.fillStyle = "#242424";
+          canvasContext!.fillStyle = "#1c1c1c";
           canvasContext!.fillRect(i * barWidth, 0, barWidth, canvasHeight);
           canvasContext!.fillStyle = "white";
           canvasContext?.fillRect(
