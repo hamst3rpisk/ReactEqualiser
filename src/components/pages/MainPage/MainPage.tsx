@@ -5,6 +5,21 @@ import { useRef, useState } from "react";
 import Header from "../../organisms/Header/Header";
 interface MainPageProps extends React.HTMLAttributes<HTMLDivElement> {}
 
+const compressArray = (
+  array: Uint8Array,
+  bufferLength: number,
+): Uint8Array<ArrayBuffer> => {
+  let compressedArray = new Uint8Array(bufferLength / 5);
+  let tempSum: number = 0;
+  for (let i = 0; i < array.length - 5; i++) {
+    if (i % 5 == 0) {
+      compressedArray.set([Math.floor(tempSum / 5)], i / 5);
+      tempSum = 0;
+    }
+    tempSum += array[i];
+  }
+  return compressedArray;
+};
 const MainPage = ({
   children,
   className,
@@ -12,12 +27,12 @@ const MainPage = ({
 }: MainPageProps): React.JSX.Element => {
   const { audioContext, getMediaDevices } = useWebAudioContext();
   const [isReady, setIsReady] = useState<boolean>(false);
-  const [previousEqState, setPreviousEqState] = useState<Uint8Array>(
-    new Uint8Array()
-  );
+  const [previousEqState, setPreviousEqState] = useState<
+    Uint8Array<ArrayBuffer>
+  >(new Uint8Array());
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const analyserRef = useRef<AnalyserNode | null>(null);
-  const canvasWidth = 960;
+  const canvasWidth = 1280;
   const canvasHeight = 540;
 
   const controlMedia = async () => {
@@ -37,18 +52,20 @@ const MainPage = ({
     const bufferLength = (analyserRef.current as AnalyserNode)
       .frequencyBinCount;
     let dataArray = new Uint8Array(bufferLength);
-    let barWidth = canvasWidth / dataArray.length;
+    let compressedArray = compressArray(dataArray, bufferLength);
+    let barWidth = Math.floor(canvasWidth / compressedArray.length);
     let intervalHeight = canvasHeight / 255;
     setInterval(() => {
       (analyserRef.current as AnalyserNode).getByteFrequencyData(dataArray);
+      compressedArray = compressArray(dataArray, bufferLength);
 
       const canvasContext = (canvasRef.current as HTMLCanvasElement).getContext(
-        "2d"
+        "2d",
       );
       canvasContext!.fillStyle = "white";
 
-      dataArray.forEach((element, i) => {
-        if (dataArray[i] != previousEqState[i]) {
+      compressedArray.forEach((element, i) => {
+        if (compressedArray[i] != previousEqState[i]) {
           canvasContext!.fillStyle = "#242424";
           canvasContext!.fillRect(i * barWidth, 0, barWidth, canvasHeight);
           canvasContext!.fillStyle = "white";
@@ -56,23 +73,19 @@ const MainPage = ({
             i * barWidth,
             0,
             barWidth,
-            (intervalHeight * element) / 3
+            (intervalHeight * element) / 3,
           );
         }
       });
-      // setTimeout(() => {
-      //   canvasContext!.fillStyle = "#242424";
-      //   canvasContext!.fillRect(0, 0, canvasWidth, canvasHeight);
-      // }, 49);
-      setPreviousEqState(dataArray);
+      setPreviousEqState(compressedArray);
     }, 25);
   }
   return (
     <div className={cs(classes.container, className)} {...props}>
-      {/* <Header /> */}
-      <div>
-        <button onClick={controlMedia}>init</button>
-      </div>
+      <Header />
+      <button className={classes.mainButton} onClick={controlMedia}>
+        initiate
+      </button>
       <div>
         <canvas
           // className={classes.canvas}

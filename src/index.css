@@ -1,13 +1,12 @@
+@import "styles/variables.css";
+
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  height: 100%;
-
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
+  background-color: var(--background-color-4);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -25,8 +24,7 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
+  /* display: flex; */
   min-width: 320px;
   min-height: 100vh;
   height: 100%;
@@ -49,7 +47,7 @@ button {
   transition: border-color 0.25s;
 }
 button:hover {
-  border-color: #646cff;
+  border-color: var(--primary-color-5);
 }
 button:focus,
 button:focus-visible {

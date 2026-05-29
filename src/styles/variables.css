@@ -1,0 +1,66 @@
+:root {
+  /* COLORS */
+  --background-color-1: #040404;
+  --background-color-2: #0c0c0c;
+  --background-color-3: #141414;
+  --background-color-4: #1c1c1c;
+  --background-color-5: #242424;
+
+  --scrollbar-background-color: #242424;
+  --scrollbar-color: #606060;
+
+  --text-color: #ffffff;
+  --text-color-dimmed: #bdbdbd;
+  --text-color-strongly-dimmed: #5d5d5d;
+  --text-color-disabled: #3f3e3e;
+
+  --danger-color: #f22625;
+
+  --primary-color-0: #fae2e9;
+  --primary-color-1: #f3b7c9;
+  --primary-color-2: #ec89a5;
+  --primary-color-3: #e45a83;
+  --primary-color-4: #dd3769;
+  --primary-color-5: #d61051;
+  --primary-color-6: #c60c4f;
+  --primary-color-7: #b1094b;
+  --primary-color-8: #9d0547;
+  --primary-color-9: #790140;
+
+  --secondary-color-0: #e5f5ec;
+  --secondary-color-1: #c0e5cf;
+  --secondary-color-2: #97d4b1;
+  --secondary-color-3: #6ac592;
+  --secondary-color-4: #46b87c;
+  --secondary-color-5: #10ac65;
+  --secondary-color-6: #059d5b;
+  --secondary-color-7: #008b4f;
+  --secondary-color-8: #007a43;
+  --secondary-color-9: #005a2f;
+
+  /* SIZES */
+
+  --radius-xs: 0.25rem;
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.25rem;
+
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 0.75rem;
+  --spacing-lg: 1rem;
+  --spacing-xl: 1.25rem;
+  --spacing-xxl: 1.5rem;
+  --spacing-xxxl: 2rem;
+
+  --font-size-xxxs: 0.5rem;
+  --font-size-xxs: 0.625rem;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.25rem;
+  --font-size-xl: 1.5rem;
+  --font-size-xxl: 2rem;
+  --font-size-xxxl: 3rem;
+}
