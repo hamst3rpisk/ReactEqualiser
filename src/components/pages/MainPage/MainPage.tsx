@@ -66,9 +66,9 @@ const MainPage = ({
 
       compressedArray.forEach((element, i) => {
         if (compressedArray[i] != previousEqState[i]) {
-          canvasContext!.fillStyle = "#1c1c1c";
+          canvasContext!.fillStyle = "#F2F2F2";
           canvasContext!.fillRect(i * barWidth, 0, barWidth, canvasHeight);
-          canvasContext!.fillStyle = "white";
+          canvasContext!.fillStyle = `hsl(340, 86%, ${compressedArray[i] / 2.55}%)`;
           canvasContext?.fillRect(
             i * barWidth,
             0,
@@ -88,7 +88,7 @@ const MainPage = ({
       </button>
       <div>
         <canvas
-          // className={classes.canvas}
+          className={classes.canvas}
           style={{ width: `${canvasWidth}px`, height: `${canvasHeight}px` }}
           ref={canvasRef}
         />
