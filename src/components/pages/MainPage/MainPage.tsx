@@ -27,6 +27,7 @@ const compressArray = (
   }
   return compressedArray;
 };
+
 const MainPage = ({
   children,
   className,
@@ -71,19 +72,23 @@ const MainPage = ({
         "2d",
       );
 
-      compressedArray.forEach((element, i) => {
+      // compressedArray.forEach((element, i) => {
+      for (
+        let i = 0;
+        i < Math.floor((compressedArray.length / 6) * 5 - 1); //Cut down the array from a max freq. of 24k to 20k (usually human hearable max)
+        i++
+      ) {
         if (compressedArray[i] != previousEqState[i]) {
-          canvasContext!.fillStyle = "#1c1c1c";
-          canvasContext!.fillRect(i * barWidth, 0, barWidth, canvasHeight);
+          canvasContext!.clearRect(i * barWidth, 0, barWidth, canvasHeight);
           canvasContext!.fillStyle = `hsl(340, 86%, ${compressedArray[i] / 2.55}%)`;
           canvasContext?.fillRect(
             i * barWidth,
             0,
             barWidth,
-            (intervalHeight * element) / 3,
+            (intervalHeight * compressedArray[i]) / 3,
           );
         }
-      });
+      }
       setPreviousEqState(compressedArray);
     }, 50);
   }

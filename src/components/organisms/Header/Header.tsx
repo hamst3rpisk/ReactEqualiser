@@ -10,7 +10,7 @@ const Header = ({
 }: HeaderProps): React.JSX.Element => {
   return (
     <div className={cs(classes.main, className)} {...props}>
-      <p className={classes.mainText}>Audio Visualizer</p>
+      <p className={classes.mainText}>Audio Visualizer (very cool!)</p>
       {children}
     </div>
   );
