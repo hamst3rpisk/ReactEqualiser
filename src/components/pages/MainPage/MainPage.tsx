@@ -10,13 +10,20 @@ const compressArray = (
   bufferLength: number,
 ): Uint8Array<ArrayBuffer> => {
   let compressedArray = new Uint8Array(bufferLength / 5);
-  let tempSum: number = array[0];
-  for (let i = 0; i < array.length - 5; i++) {
-    if (i % 5 == 0) {
-      compressedArray.set([Math.floor(tempSum / 5)], i / 5);
-      tempSum = 0;
-    }
-    tempSum += array[i];
+  for (let i = 2; i < array.length - 5; i += 5) {
+    compressedArray.set(
+      [
+        Math.floor(
+          (array[i - 2] +
+            array[i - 1] +
+            array[i] +
+            array[i + 1] +
+            array[i + 2]) /
+            5,
+        ),
+      ],
+      i / 5,
+    );
   }
   return compressedArray;
 };
@@ -66,7 +73,7 @@ const MainPage = ({
 
       compressedArray.forEach((element, i) => {
         if (compressedArray[i] != previousEqState[i]) {
-          canvasContext!.fillStyle = "#F2F2F2";
+          canvasContext!.fillStyle = "#1c1c1c";
           canvasContext!.fillRect(i * barWidth, 0, barWidth, canvasHeight);
           canvasContext!.fillStyle = `hsl(340, 86%, ${compressedArray[i] / 2.55}%)`;
           canvasContext?.fillRect(
@@ -78,7 +85,7 @@ const MainPage = ({
         }
       });
       setPreviousEqState(compressedArray);
-    }, 25);
+    }, 50);
   }
   return (
     <div className={cs(classes.container, className)} {...props}>
